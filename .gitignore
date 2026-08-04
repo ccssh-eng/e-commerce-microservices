@@ -1,3 +1,21 @@
-.env
+# Dependencies
+node_modules/
+*/node_modules/
+**/node_modules/
+
+# Logs
 *.log
+npm-debug.log*
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Build
+dist/
+build/
+
+# OS
 .DS_Store
+Thumbs.db
