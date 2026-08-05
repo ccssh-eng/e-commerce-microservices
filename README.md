@@ -1,11 +1,10 @@
 #  E-Commerce Microservices Platforme
 
-> Plateforme e-commerce complète basée sur une architecture microservices,
+> Plateforme e-commerce complètement basée sur une architecture microservices,
 > conteneurisée avec Docker, orchestrée via Kubernetes et déployée en GitOps avec ArgoCD.
 
 ##  Table des matières
 
-- [Architecture](#architecture)
 - [Microservices](#microservices)
 - [Technologies](#technologies)
 - [Démarrage rapide](#démarrage-rapide)
