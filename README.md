@@ -1,4 +1,4 @@
-# ----- E-Commerce Microservices Platforme -----
+# Projet: E-Commerce Microservices Platforme 
 
 > Plateforme e-commerce complètement basée sur une architecture microservices,
 > conteneurisée avec Docker, orchestrée via Kubernetes (AKS) et déployée
