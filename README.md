@@ -1,16 +1,5 @@
 #  E-Commerce Microservices Platforme
 
-![Node.js](https://img.shields.io/badge/Node.js-18+-339933?logo=node.js)
-![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)
-![MongoDB](https://img.shields.io/badge/MongoDB-6-47A248?logo=mongodb)
-![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker)
-![Kubernetes](https://img.shields.io/badge/Kubernetes-Orchestration-326CE5?logo=kubernetes)
-![Helm](https://img.shields.io/badge/Helm-Charts-0F1689?logo=helm)
-![ArgoCD](https://img.shields.io/badge/ArgoCD-GitOps-EF7B4D?logo=argo)
-![Terraform](https://img.shields.io/badge/Terraform-IaC-7B42BC?logo=terraform)
-![NGINX](https://img.shields.io/badge/NGINX-Gateway-009639?logo=nginx)
-![Grafana](https://img.shields.io/badge/Grafana-Monitoring-F46800?logo=grafana)
-
 > Plateforme e-commerce complète basée sur une architecture microservices,
 > conteneurisée avec Docker, orchestrée via Kubernetes et déployée en GitOps avec ArgoCD.
 
@@ -279,7 +268,7 @@ terraform destroy
 111 directories, 51 files
 
 ## Auteur
+
 **Cédric SH**
 *Architecte Cloud | Ingénieur DevOps | Développeur Full Stack*
 
-[![GitHub](https://img.shields.io/badge/GitHub-ccssh--eng-181717?logo=github)]
