@@ -7,3 +7,5 @@ RUN npm install
 COPY . .
 
 CMD ["node", "seed.js"]
+
+

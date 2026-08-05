@@ -1,8 +1,6 @@
 version: '3.9'
 services:
-  # ====================
   # Backend Microservices
-  # ====================
 
   auth-service:
     build:
@@ -89,9 +87,8 @@ services:
       - ./notification-service:/app/notification-service
     restart: "no"
 
-  # ====================
   # Frontend (React)
-  # ====================
+
   frontend:
     build:
       context: ./frontend
@@ -103,9 +100,8 @@ services:
       - product-service
       - cart-service
 
-  # ====================
   # Shared MongoDB
-  # ====================
+
   mongo:
     image: mongo
     ports:
@@ -115,3 +111,4 @@ services:
 
 volumes:
   mongo-data:
+

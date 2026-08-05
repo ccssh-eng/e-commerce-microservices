@@ -12,7 +12,7 @@ app.use(express.json());
 mongoose.connect(process.env.MONGO_URI || 'mongodb://mongo:27017/auth', {
   useNewUrlParser: true,
   useUnifiedTopology: true
-}).then(() => console.log('✅ Connected to MongoDB'))
+}).then(() => console.log(' Connected to MongoDB'))
   .catch(err => console.error('❌ MongoDB connection error:', err));
 
 // User model
@@ -35,5 +35,6 @@ app.post('/users', async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`🚀 Auth Service running at http://localhost:${PORT}`);
+  console.log(` Auth Service running at http://localhost:${PORT}`);
 });
+
