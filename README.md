@@ -1,4 +1,4 @@
-#  E-Commerce Microservices Platforme
+# ----- E-Commerce Microservices Platforme -----
 
 ![Node.js](https://img.shields.io/badge/Node.js-18+-339933?logo=node.js)
 ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)
