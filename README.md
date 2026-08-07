@@ -6,7 +6,6 @@
 
 ## Table des matières
 
-- [Architecture](#architecture)
 - [Microservices](#microservices)
 - [Technologies](#technologies)
 - [Démarrage rapide](#démarrage-rapide)
@@ -16,9 +15,6 @@
 - [Infrastructure Terraform](#infrastructure-terraform)
 - [Structure du projet](#structure-du-projet)
 
-## Architecture
-                                                    ##  E-COMMERCE MICROSERVICES
-                                                    ##       Microsoft Azure
 
 ### Flux de données
 
@@ -347,5 +343,5 @@ e-commerce-microservices/
 ## Auteur
 
 **Cédric SH**
-*Architecte Cloud Azure | Ingénieur DevOps | Développeur Full Stack*
+*Architecte Cloud Azure | Ingénieur DevSecOps | Développeur Full Stack*
 
