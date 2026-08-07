@@ -6,6 +6,7 @@
 
 ## Table des matières
 
+- [Architecture](#architecture)
 - [Microservices](#microservices)
 - [Technologies](#technologies)
 - [Démarrage rapide](#démarrage-rapide)
@@ -14,6 +15,11 @@
 - [Monitoring](#monitoring)
 - [Infrastructure Terraform](#infrastructure-terraform)
 - [Structure du projet](#structure-du-projet)
+
+## Architecture
+                                                    ##  E-COMMERCE MICROSERVICES
+                                                    ##       Microsoft Azure
+C:\Users\dricg\Pictures\Screenshots\microservices-prod\DISTANT\Azure_ecomm_infra.drawio.png
 
 ### Flux de données
 
