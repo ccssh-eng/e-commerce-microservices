@@ -19,7 +19,6 @@
 ## Architecture
                                                     ##  E-COMMERCE MICROSERVICES
                                                     ##       Microsoft Azure
-C:\Users\dricg\Pictures\Screenshots\microservices-prod\DISTANT\Azure_ecomm_infra.drawio.png
 
 ### Flux de données
 
