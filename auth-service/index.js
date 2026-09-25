@@ -10,7 +10,7 @@ console.log("Auth service démarré...")
 
 app.post('/login', async (req, res) => {
   const { username, password } = req.body;
-  // In real life, check DB
+  // check DB
   if (username === 'admin' && password === 'password') {
     const token = jwt.sign({ username }, process.env.JWT_SECRET, { expiresIn: '1h' });
     return res.json({ token });

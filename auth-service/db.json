@@ -1,6 +1,3 @@
-
-
-
 {
   "users": [
     { "id": 1, "username": "alice", "password": "hashedpassword1" },
