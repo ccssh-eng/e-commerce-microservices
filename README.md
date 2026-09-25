@@ -154,6 +154,30 @@ Prometheus can be added as a metrics backend.
 
 ---
 
+## Security & Secrets
+
+All services receive their configuration through **environment variables** — no credentials are hardcoded in the source code.
+
+For local development with Docker Compose, connection strings use no authentication (standard for a local dev environment):
+
+MONGO_URI=mongodb://mongo:27017/<service-db>
+
+
+For production deployment, use a dedicated Secret Manager:
+- **Azure Key Vault** (recommended for Azure/AKS deployments)
+- **AWS Secrets Manager** (for EKS deployments)  
+- **HashiCorp Vault** (cloud-agnostic)
+- **Kubernetes Secrets** with RBAC restrictions at minimum
+
+A `.env.example` file is provided as a template — copy it to `.env` and fill in your own values:
+
+```bash
+cp .env.example .env
+```
+
+> `.env` is listed in `.gitignore` and will never be committed to version control.
+
+---
 
 ## Testing
 
@@ -179,5 +203,4 @@ npm test
 
 ## Author
 
-**Cédric SH** — [github.com/ccssh-eng](https://github.com/ccssh-eng)  
-*Built for learning and as a demonstration of a modern cloud-native microservices architecture.*
+**Cédric SH** — [github.com/ccssh-eng](https://github.com/ccssh-eng/e-commerce-microservices)  
