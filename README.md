@@ -175,8 +175,6 @@ A `.env.example` file is provided as a template — copy it to `.env` and fill i
 cp .env.example .env
 ```
 
-> `.env` is listed in `.gitignore` and will never be committed to version control.
-
 ---
 
 ## Testing
@@ -204,4 +202,4 @@ npm test
 ## Author
 
 **Cédric SH** — Data Engineer | Cloud | Azure
-[github.com/ccssh-eng/e-commerce-microservices](https://github.com/ccssh-eng/e-commerce-microservices)  
+- [github.com/ccssh-eng/e-commerce-microservices](https://github.com/ccssh-eng/e-commerce-microservices)  
