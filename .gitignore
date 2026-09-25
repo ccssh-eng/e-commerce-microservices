@@ -19,3 +19,8 @@ build/
 # OS
 .DS_Store
 Thumbs.db
+*.env
+k8s/secrets/*.yaml
+mongodb/mongodb-secret.yaml
+.env
+*.env.local
