@@ -1,347 +1,183 @@
-#  Projet: E-Commerce Microservices Platforme 
+# e-commerce-microservices
 
-> Plateforme e-commerce complètement basée sur une architecture microservices,
-> conteneurisée avec Docker, orchestrée via Kubernetes (AKS) et déployée
-> en GitOps avec ArgoCD sur Microsoft Azure.
+> A production-grade microservices architecture built with Node.js, Docker, Kubernetes, Helm, ArgoCD and Terraform — designed for scalability, GitOps automation and cloud-native deployment.
 
-## Table des matières
+---
 
-- [Microservices](#microservices)
-- [Technologies](#technologies)
-- [Démarrage rapide](#démarrage-rapide)
-- [Déploiement Kubernetes](#déploiement-kubernetes)
-- [GitOps avec ArgoCD](#gitops-avec-argocd)
-- [Monitoring](#monitoring)
-- [Infrastructure Terraform](#infrastructure-terraform)
-- [Structure du projet](#structure-du-projet)
+## Architecture Overview
 
+```
+┌─────────────────────────────────────────────────────────────┐
+│                        NGINX Ingress                        │
+└──────────┬──────────────────────────────────────────────────┘
+           │
+    ┌──────▼──────┐
+    │   Frontend  │  (NGINX-served web app)
+    └──────┬──────┘
+           │  REST API calls
+    ┌──────▼────────────────────────────────────────┐
+    │              Microservices Layer               │
+    │                                               │
+    │  auth · cart · inventory · order              │
+    │  payment · product · notification             │
+    └──────────────────┬────────────────────────────┘
+                       │
+              ┌────────▼────────┐
+              │    MongoDB      │
+              └─────────────────┘
+```
 
-### Flux de données
+| Layer           | Technology                              |
+|-----------------|-----------------------------------------|
+| Backend         | Node.js / Express — REST APIs           |
+| Frontend        | Static web app served by NGINX          |
+| Database        | MongoDB                                 |
+| Containerization| Docker / Docker Compose                 |
+| Orchestration   | Kubernetes (Minikube / EKS / Kind)      |
+| Packaging       | Helm Charts                             |
+| GitOps          | ArgoCD                                  |
+| Infrastructure  | Terraform                               |
+| Ingress         | NGINX Ingress Controller                |
+| Monitoring      | Grafana (+ Prometheus-ready)            |
 
-1. Utilisateur -> React Frontend (port 3000)
-2. Frontend -> NGINX Gateway (port 8081)
-3. NGINX route vers le microservice approprié
-4. Microservice <- -> MongoDB / CosmosDB
-5. Réponse -> Frontend -> Utilisateur
+---
+
+## Project Structure
+
+```
+e-commerce-microservices/
+├── auth-service/          # Authentication & JWT
+├── cart-service/          # Shopping cart management
+├── inventory-service/     # Stock & inventory
+├── order-service/         # Order lifecycle
+├── payment-service/       # Payment processing
+├── product-service/       # Product catalog
+├── notification-service/  # Email / push notifications
+├── frontend/              # Web frontend (NGINX)
+├── mongodb/               # MongoDB K8s deployment
+├── k8s/                   # Kubernetes manifests (per service)
+├── helm/                  # Helm charts (ingress, cert-manager…)
+├── auth-chart/            # Dedicated Helm chart for auth-service
+├── nginx/                 # NGINX configuration
+├── scripts/               # Automation scripts (CI/CD, ArgoCD)
+├── terraform/             # Infrastructure as Code
+├── docker-compose.yml     # Local development launcher
+└── README.md
+```
+
+---
 
 ## Microservices
 
-| Service | Port | Rôle | Technologie |
+Each service is independently deployable and follows the same pattern:
 
-| **auth-service** | 3001 | Authentification JWT | Node.js, bcryptjs, jsonwebtoken |
-| **product-service** | 3002 | Catalogue produits | Node.js, Express |
-| **order-service** | 3003 | Gestion des commandes | Node.js, MongoDB |
-| **cart-service** | 3004 | Panier d'achat | Node.js, MongoDB |
-| **payment-service** | 3005 | Traitement des paiements | Node.js, Express |
-| **inventory-service** | 3006 | Gestion des stocks | Node.js, MongoDB |
-| **notification-service** | 3007 | Notifications | Node.js, Express |
-| **frontend** | 3000 | Interface utilisateur React | React 19, NGINX |
-| **nginx** | 8081 | API Gateway / Reverse Proxy | NGINX |
-| **mongo** | 27017 | Base de données | MongoDB |
+- Written in **Node.js** with Express
+- Has its own **Dockerfile**
+- Exposes a **REST API**
+- Is deployed as a separate **Kubernetes pod**
 
-### Endpoints API
+| Service              | Responsibility                  |
+|----------------------|---------------------------------|
+| `auth-service`       | User authentication, JWT tokens |
+| `cart-service`       | Add/remove cart items           |
+| `inventory-service`  | Product stock management        |
+| `order-service`      | Order creation & tracking       |
+| `payment-service`    | Payment gateway integration     |
+| `product-service`    | Product catalog & search        |
+| `notification-service` | Email & push notifications    |
 
-POST /login          -> auth-service   : Authentification, retourne JWT
-GET  /products      -> product-service: Liste des produits
-GET  /orders         -> order-service  : Liste des commandes
-GET  /cart            -> cart-service   : Contenu du panier
-POST /payment      ->   payment-service: Traitement paiement
-GET  /inventory     -> inventory-service: Niveaux de stock
-GET  /notifications  -> notification-service: Notifications
+---
 
-GET  /health         -> Disponible sur chaque service
+## Getting Started
 
-## Technologies
+### Prerequisites
 
-BACKEND           Node.js 18+ / Express
-FRONTEND          React 19 / NGINX
-BASE DE DONNÉES   MongoDB 6
-CONTENEURS        Docker / Docker Compose
-ORCHESTRATION     Kubernetes
-REGISTRY          Azure Container Registry (ACR)
-PACKAGING K8S     Helm
-GITOPS            ArgoCD
-GATEWAY           NGINX Ingress Controller
-MONITORING        Grafana + Prometheus
-IaC               Terraform (provider azurerm ~> 3.100)
-CI/CD             GitHub Actions
+- [Docker](https://docs.docker.com/get-docker/) & Docker Compose
+- [Node.js](https://nodejs.org/) *(optional — for local dev without Docker)*
+- [kubectl](https://kubernetes.io/docs/tasks/tools/) *(for Kubernetes deployment)*
+- [Helm](https://helm.sh/docs/intro/install/) *(for Helm-based deployment)*
 
-## Démarrage rapide
-### Prérequis
+### Run locally with Docker Compose
 
-docker --version        # >= 24.0
-docker compose version  # >= 2.0
-node --version          # >= 18 (optionnel pour dev)
-
-### Lancer avec Docker Compose
-# Cloner le repo
-
+```bash
 git clone https://github.com/ccssh-eng/e-commerce-microservices.git
 cd e-commerce-microservices
+docker-compose up --build
+```
 
-# Démarrer tous les services
+Services will be available on the ports defined in `docker-compose.yml`.
 
-docker compose up --build
+---
 
-# En arrière-plan
+## Kubernetes Deployment
 
-docker compose up --build -d
+### Manual deployment
 
-# Voir les logs
-
-docker compose logs -f
-
-### Services accessibles
-
-Frontend            -> http://localhost:3000
-NGINX Gateway       -> http://localhost:8081
-Auth Service        -> http://localhost:3001
-Product Service     -> http://localhost:3002
-Order Service       -> http://localhost:3003
-Cart Service        -> http://localhost:3004
-Payment Service     -> http://localhost:3005
-Inventory           -> http://localhost:3006
-Notification        -> http://localhost:3007
-MongoDB             -> localhost:27017
-
-### Test rapide
-# Health check sur tous les services
-
-curl http://localhost:3001/health  # Auth OK
-curl http://localhost:3002/health  # Product OK
-
-# Login -> retourne un JWT
-
-curl -X POST http://localhost:3001/login \
-  -H "Content-Type: application/json" \
-  -d '{"username":"admin","password":"password"}'
-
-# Liste des produits
-
-curl http://localhost:3002/products
-
-# Health check de tous les services
-./scripts/health-check.sh
-
-### Arrêter les services
-
-docker compose down
-
-# Supprimer aussi les volumes MongoDB
-
-docker compose down -v
-
-## Déploiement Kubernetes
-### Prérequis
-
-az --version      # Azure CLI
-kubectl version   # >= 1.28
-helm version      # >= 3.0
-
-### Connexion au cluster AKS
-# Login Azure
-
-az login
-
-# Récupérer les credentials AKS
-
-az aks get-credentials \
-  --resource-group rg-ecommerce-microservices \
-  --name aks-ecommerce
-
-# Vérifier la connexion
-
-kubectl get nodes
-
-### Déploiement manuel
-# Appliquer tous les manifests
-
+```bash
 kubectl apply -f k8s/
+```
 
-# Vérifier les pods
+### Helm deployment
 
-kubectl get pods
-kubectl get services
-kubectl get ingress
-
-### Déploiement via Helm
-
-# Installer le chart auth-service
-
+```bash
 helm install auth-service ./auth-chart
+```
 
-# Lister les releases
+---
 
-helm list
+## GitOps with ArgoCD
 
-# Mettre à jour
+ArgoCD configuration lives in `k8s/argocd/`. Convenience scripts are provided:
 
-helm upgrade auth-service ./auth-chart
+```bash
+scripts/create-all-argocd-apps.sh   # Create all ArgoCD applications
+scripts/sync-all-argocd-apps.sh     # Sync all applications
+scripts/delete-all-argocd-apps.sh   # Tear down all applications
+```
 
-# Désinstaller
+---
 
-helm uninstall auth-service
+## Infrastructure with Terraform
 
-### Push des images vers ACR
+```bash
+cd terraform
+terraform init
+terraform apply
+```
 
-# Login ACR
-
-az acr login --name acrecommerce
-
-# Build et push de chaque service
-
-for SERVICE in auth-service product-service order-service \
-               cart-service payment-service inventory-service \
-               notification-service frontend; do
-  az acr build \
-    --registry acrecommerce \
-    --image $SERVICE:latest \
-    --file $SERVICE/Dockerfile \
-    ./$SERVICE
-done
-
-## GitOps avec ArgoCD
-
-Le projet suit une approche **GitOps** — chaque changement dans le repo Git
-déclenche automatiquement le déploiement sur AKS via ArgoCD.
-
-Git Push -> ArgoCD détecte -> Sync automatique -> AKS
-
-### Installation ArgoCD sur AKS
-
-kubectl create namespace argocd
-
-kubectl apply -n argocd \
-  -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-
-# Accéder à l'UI ArgoCD
-
-kubectl port-forward svc/argocd-server -n argocd 8080:443
-
-# URL : https://localhost:8080
-
-### Scripts disponibles
-
-# Créer toutes les applications ArgoCD
-
-./scripts/create-all-argocd-apps.sh
-
-# Synchroniser toutes les applications
-
-./scripts/sync-all-argocd-apps.sh
-
-# Vérifier la santé de tous les services
-
-./scripts/health-check.sh
-
-# Supprimer toutes les applications
-
-./scripts/delete-all-argocd-apps.sh
+---
 
 ## Monitoring
 
-Grafana est exposé via `grafana-ingress.yaml` pour la visualisation des métriques.
+Grafana is exposed via `grafana-ingress.yaml`.  
+Prometheus can be added as a metrics backend.
 
-# Accéder à Grafana
-
-kubectl port-forward svc/grafana 3000:3000 -n monitoring
-
-# URL : http://localhost:3000
-# Login par défaut : admin / admin
-
-Métriques surveillées :
-- Latence des requêtes par microservice
-- Nombre de requêtes par endpoint
-- Utilisation CPU / Mémoire par pod
-- Disponibilité des services (health checks)
-- Taux d'erreur par service
-
-## Infrastructure Azure Terraform
-
-Le dossier `terraform/` provisionne l'infrastructure Azure complète :
-
-| Ressource | Service Azure |
-
-| Cluster Kubernetes | Azure Kubernetes Service (AKS) |
-| Registry Docker | Azure Container Registry (ACR) |
-| Base de données | Azure CosmosDB (MongoDB API) |
-| Réseau | Azure Virtual Network |
-
-cd terraform
-
-# Login Azure
-
-az login
-
-# Initialiser Terraform
-
-terraform init
-
-# Planifier
-
-terraform plan
-
-# Appliquer
-
-terraform apply
-
-# Outputs utiles
-
-terraform output aks_cluster_name
-terraform output acr_login_server
+---
 
 
-## Structure du projet
+## Testing
 
-e-commerce-microservices/
-│
-├── auth-service/              # Authentification JWT (port 3001)
-│   ├── Dockerfile
-│   ├── index.js               # POST /login, GET /health
-│   └── package.json           # bcryptjs, jsonwebtoken, express
-│
-├── product-service/           # Catalogue produits (port 3002)
-│   ├── Dockerfile
-│   ├── index.js               # GET /products, GET /health
-│   └── package.json
-│
-├── order-service/             # Gestion commandes (port 3003)
-├── cart-service/              # Panier d'achat (port 3004)
-├── payment-service/           # Paiements (port 3005)
-├── inventory-service/         # Stocks (port 3006)
-├── notification-service/      # Notifications (port 3007)
-│
-├── frontend/                  # React 19 + NGINX (port 3000)
-│   ├── Dockerfile
-│   ├── src/App.js             # Consomme GET /api/products
-│   └── package.json
-│
-├── k8s/                       # Manifests Kubernetes
-│   ├── auth-service/
-│   ├── frontend/
-│   ├── nginx-gateway/
-│   └── product-service/
-│
-├── terraform/                 # Infrastructure as Code (Azure)
-│   ├── main.tf                # AKS + ACR + CosmosDB
-│   ├── variables.tf           # Variables d'entrée
-│   └── outputs.tf             # Valeurs exportées
-│
-├── scripts/                   # Scripts d'automatisation
-│   ├── create-all-argocd-apps.sh
-│   ├── sync-all-argocd-apps.sh
-│   ├── delete-all-argocd-apps.sh
-│   └── health-check.sh
-│
-├── nginx/
-│   └── default.conf           # Configuration API Gateway
-│
-├── mongo-seeder/              # Initialisation données MongoDB
-├── docker-compose.yml         # Orchestration locale complète
-└── README.md
+Each service can be tested independently:
 
-## Auteur
+```bash
+cd auth-service
+npm install
+npm test
+```
 
-**Cédric SH**
-*Architecte Cloud Azure | Ingénieur DevSecOps | Développeur Full Stack*
+---
 
+## Best Practices Applied
+
+- **Separation of concerns** — each service owns its domain
+- **Independent deployability** — services scale and deploy separately
+- **GitOps** — declarative infrastructure, version-controlled deployments
+- **Infrastructure as Code** — Terraform manages all cloud resources
+- **Full containerization** — Docker from dev to production
+
+---
+
+## Author
+
+**Cédric SH** — [github.com/ccssh-eng](https://github.com/ccssh-eng)  
+*Built for learning and as a demonstration of a modern cloud-native microservices architecture.*
