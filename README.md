@@ -203,4 +203,5 @@ npm test
 
 ## Author
 
-**Cédric SH** — [github.com/ccssh-eng](https://github.com/ccssh-eng/e-commerce-microservices)  
+**Cédric SH** — Data Engineer | Cloud | Azure
+[github.com/ccssh-eng/e-commerce-microservices](https://github.com/ccssh-eng/e-commerce-microservices)  
