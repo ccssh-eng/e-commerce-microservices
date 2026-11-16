@@ -2,11 +2,9 @@
   "name": "microservices-project",
   "version": "1.0.0",
   "main": "seed.js",
-
-"scripts": {
-  "start": "node index.js"
-},
-
+  "scripts": {
+    "start": "node index.js"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -14,9 +12,8 @@
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "mongodb": "^6.15.0",
-    "mongoose": "^8.13.1"
+    "mongoose": "^9.12.1",
+    "qs": "^6.16.1"
   },
   "description": ""
 }
-
-
