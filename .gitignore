@@ -24,3 +24,18 @@ k8s/secrets/*.yaml
 mongodb/mongodb-secret.yaml
 .env
 *.env.local
+
+# Terraform
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+.terraform.lock.hcl
+
+# Sensitive files
+*.pem
+*.key
+.env
+.env.*
+
